@@ -127,7 +127,7 @@ div[data-testid="stButton"] button:hover {
 </style>
 """, unsafe_allow_html=True)
  
-API_BASE = "http://localhost:8000"
+API_BASE = "https://appapppy-6amv6ug8cacttqkmlvhy4p.streamlit.app/"
  
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.markdown("# 📈 AI Stock Analyst")
