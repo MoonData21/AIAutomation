@@ -1,42 +1,15 @@
-import json
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from app.db.models.workflow_run import WorkflowRun
-from app.schemas.analyze import StockAnalysis
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from app.core.config import settings
+from app.db.base import Base
 
+engine = create_async_engine(settings.DATABASE_URL, echo=True)
 
-async def create_run(db: AsyncSession, run_id: str, ticker: str, analysis_type: str, risk_tolerance: str) -> WorkflowRun:
-    run = WorkflowRun(
-        id=run_id,
-        ticker=ticker,
-        analysis_type=analysis_type,
-        risk_tolerance=risk_tolerance,
-        status="pending",
-    )
-    db.add(run)
-    await db.commit()
-    await db.refresh(run)
-    return run
+AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
+async def init_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
-async def update_run_complete(db: AsyncSession, run_id: str, plan: StockAnalysis) -> None:
-    result = await db.execute(select(WorkflowRun).where(WorkflowRun.id == run_id))
-    run = result.scalar_one_or_none()
-    if run:
-        run.status = "complete"
-        run.result_json = json.dumps(plan.model_dump())
-        await db.commit()
-
-
-async def update_run_failed(db: AsyncSession, run_id: str, error: str) -> None:
-    result = await db.execute(select(WorkflowRun).where(WorkflowRun.id == run_id))
-    run = result.scalar_one_or_none()
-    if run:
-        run.status = "failed"
-        run.error = error
-        await db.commit()
-
-
-async def get_run(db: AsyncSession, run_id: str) -> WorkflowRun | None:
-    result = await db.execute(select(WorkflowRun).where(WorkflowRun.id == run_id))
-    return result.scalar_one_or_none()
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session
