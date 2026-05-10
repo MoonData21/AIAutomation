@@ -1,0 +1,17 @@
+# Environment & secrets
+.env
+.env.local
+.streamlit/secrets.toml
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Database
+*.db
+
+# Logs
+logs/
+*.log
