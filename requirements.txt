@@ -33,3 +33,6 @@ ruff==0.6.9        # linting
 black==24.10.0     # formatting
 
 yfinance==0.2.54
+
+streamlit
+plotly
