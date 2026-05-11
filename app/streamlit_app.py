@@ -127,7 +127,7 @@ div[data-testid="stButton"] button:hover {
 </style>
 """, unsafe_allow_html=True)
  
-API_BASE = "https://soothing-liberation.railway.app"
+API_BASE = "https://aiautomation-production.up.railway.app"
  
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.markdown("# 📈 AI Stock Analyst")
