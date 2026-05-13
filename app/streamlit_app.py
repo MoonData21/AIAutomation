@@ -127,7 +127,7 @@ div[data-testid="stButton"] button:hover {
 </style>
 """, unsafe_allow_html=True)
  
-API_BASE = "https://aiautomation-production.up.railway.app"
+API_BASE = st.secrets.get("API_BASE", "https://aiautomation-production.up.railway.app")
  
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.markdown("# 📈 AI Stock Analyst")
@@ -159,7 +159,7 @@ with st.sidebar:
     run_button = st.button("Run Analysis")
  
     st.markdown("---")
-    st.markdown("<p style='font-family: DM Mono, monospace; font-size: 11px; color: #333350;'>Powered by Railway API: soothing-liberation.railway.app</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-family: DM Mono, monospace; font-size: 11px; color: #333350;'>Powered by Railway API: aiautomation-production.up.railway.app</p>", unsafe_allow_html=True)
  
  
 # ── Helper: price chart ────────────────────────────────────────────────────────
